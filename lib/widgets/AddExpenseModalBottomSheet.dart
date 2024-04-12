@@ -12,6 +12,8 @@ class AddExpenseModalBottomSheet extends StatefulWidget {
 
 class _AddExpenseModalBottomSheetState extends State<AddExpenseModalBottomSheet> {
 
+  final _titleController = TextEditingController();
+  final _amountController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +22,7 @@ class _AddExpenseModalBottomSheetState extends State<AddExpenseModalBottomSheet>
       child: Column(
         children: [
           TextField(
-            onChanged: (userInput) {
-              print(userInput);
-            },
+            controller: _titleController,
             maxLength: 50,
             decoration: const InputDecoration(
               label: Text(
@@ -30,14 +30,37 @@ class _AddExpenseModalBottomSheetState extends State<AddExpenseModalBottomSheet>
               )
             ),
           ),
-          ElevatedButton(
-              onPressed: () {
-
-          },
-              child: const Text("Save new expense"))
+          TextField(
+            keyboardType: TextInputType.number,
+            controller: _amountController,
+            decoration: const InputDecoration(
+              label: Text(
+                "Amount"
+              )
+            ),
+          ),
+          Row(
+            children: [
+              const Spacer(),
+              TextButton(onPressed: () {}, child: const Text("Cancel")),
+              const SizedBox(width: 8),
+              ElevatedButton(
+                  onPressed: () {
+                  print(_titleController.text);
+                  print(_amountController.text);
+              },
+                  child: const Text("Save new expense")),
+            ],
+          )
         ],
       ),
     );
   }
 
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _amountController.dispose();
+    super.dispose();
+  }
 }
